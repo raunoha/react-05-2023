@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import productsFromFail from "../../data/products.json"; //../../ läheb 2 kausta üles
 import Button from 'react-bootstrap/esm/Button';
 import { Link } from 'react-router-dom';
 
 function MaintainProducts() {
 const [products, setProduct] = useState (productsFromFail);
+const searchedRef = useRef();
 
 const deleteProduct =() => {
   //koju kustuta toode 
@@ -17,23 +18,45 @@ const deleteProduct =() => {
   */ 
 }
 
+const searchFromProducts = () => {                        // otsingu, hakkab otsima
+const result = productsFromFail.filter(element => element.name.includes(searchedRef.current.value))
+setProduct(result);
+}
+
   return (
     <div>
-      {products.map(product =>
-        <div key={product.id}>
-          <img src={product.image} alt="" />
-          <div>{product.id}</div>
-          <div>{product.image}</div>
-          <div>{product.name}</div>
-          <div>{product.price}</div>
-          <div>{product.description}</div>
-          <div>{product.category}</div>
-          <div>{product.active}</div>
+      <input onChange={searchFromProducts} ref={searchedRef} type="text" />
+      <span>{products.length } tk</span>
+      <table>
+        <thead> 
+          <tr>
+          <th>Pilt</th>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Actions</th>
+          </tr>
+        </thead>
+       <tbody>
+       {products.map(product =>
+        <tr key={product.id}>
+          <td><img className='image' src={product.image} alt="" /></td>
+          <td>{product.id}</td>
+          <td>{product.name}</td>
+          <td>{product.price}</td>
+          <td>{product.description}</td>
+          <td>{product.category}</td>
+          <td>
           <Button variant="danger">Delete</Button>
           <Button as={Link} to={"/admin/edit-products/" + product.id} variant="warning">Edit</Button>
-       </div>
+          </td>
+       </tr>
         )}
-      </div>
+     </tbody>
+    </table>
+   </div>
   )
 }
 

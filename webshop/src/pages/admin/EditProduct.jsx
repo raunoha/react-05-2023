@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import productsFromFile from "../../data/products.json";
 import { Button }from 'react-bootstrap';
@@ -18,6 +18,7 @@ const imageRef = useRef();
 const categoryRef = useRef();
 const activeRef = useRef();
 const navigate = useNavigate();
+const [idUnique, setIdUnique] = useState(true);
 
 const changeProduct = () => { //saab ka kustuda omaduse abil, nime abil jrknr saab kustudada
   const updateProduct = {
@@ -33,14 +34,42 @@ const changeProduct = () => { //saab ka kustuda omaduse abil, nime abil jrknr sa
 navigate("/admin/maintain-products");
 } 
 
+const checkIdUniqueness = () => {
+/*const result = productsFromFile.filter(element =>element.id === Number (idRef.current.value));
+if (result.length === 0 ) {
+  setIdUnique(true);
+}else {
+  setIdUnique(false);
+}
+}
+
+const found = productsFromFile.find(element =>element.id === Number (idRef.current.value));
+if (found === undefined ) {
+  setIdUnique(true);
+}else {
+  setIdUnique(false);
+}*/
+
+
+const index = productsFromFile.findIndex(element =>element.id === Number (idRef.current.value));
+if (index === -1 ) {
+  setIdUnique(true);
+}else {
+  setIdUnique(false);
+}
+
+}
+
+
 
   return (
     <div>
      { /*<div>Id: {id}</div>
       <div>Toode: {found.name}</div>
        <div>JrkNr: {index}</div>*/}
+       {idUnique === false &&  <div>Inserted ID is not unique!</div>} 
        <label>Id</label> <br />
-       <input ref={idRef} type="number" defaultValue={found.id} /> <br />
+       <input onChange={checkIdUniqueness} ref={idRef} type="number" defaultValue={found.id} /> <br />
        <label>Name</label> <br />
        <input ref={nameRef} type="text" defaultValue={found.name} /> <br />
        <label>Price</label> <br />
@@ -53,9 +82,9 @@ navigate("/admin/maintain-products");
        <input ref={categoryRef} type="text" defaultValue={found.category} /> <br />
        <label>Active</label> <br />
        <input ref={activeRef} type="checkbox" defaultChecked={found.active} /> <br />
-      <Button onClick={changeProduct}>Change</Button>
+      <Button disabled={idUnique === false}  onClick={changeProduct}>Change</Button>
       </div>
   )
 }
 
-export default EditProduct
+export default EditProduct;
