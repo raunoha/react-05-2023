@@ -15,6 +15,8 @@ const resources = {
        "maintain-shops": "Maintain-shops",
        "add-product": "Add-product",
        "maintain-products": "Maintain-products ",
+       'tk':"piece",
+       
     }
   },
   ee: {
@@ -27,6 +29,27 @@ const resources = {
        "maintain-shops": "Halda poode",
        "add-product": "Lisa toode",
        "maintain-products": "Halda tooteid",
+       "Add to cart": "Lisa ostukorvi",
+       "Sort A-Z": "A-Z",
+       "Sort Z-A": "Z-A",
+       "Price Ascending":"Hind Kahanev",
+       "Price Descending": "Hind suurenev",
+       'Category Tent': "Telk",
+       'Category Camping': "Matkamine",
+       'Category Motors': "Autod",
+       'Category Motorcycle':"Mootorrattad",
+       'Cart is empty.':"Ostukorv on tühi",
+       'Delete':"Kustuta",
+       'Empty':"Eemalda tooted",
+       'Add products':"Lisa Toode",
+       'Total Value:':"Ostukorvi summa",
+       'Total of:':"Toodete",
+       'products in cart!':"kogus",
+       'Edit':"Muuda",
+       "piece":"tk"
+
+       
+
        }
   },
   fin: {
@@ -39,6 +62,24 @@ const resources = {
        "maintain-shops": "Ylläpidä kauppoja",
        "add-product": "Lisää tuote",
        "maintain-products": "Ylläpidä tuotteita",
+       "Add to cart": "Lisää ostoskoriin",
+       "Sort A-Z": "A-Z",
+       "Sort Z-A": "Z-A",
+       "Price Ascending":"Hinta laskee",
+       "Price Descending": "Hinta nousee",
+       'Category Tent': "Teltta",
+       'Category Camping': "Patikointi",
+       'Category Motors': "Autoja",
+       'Category Motorcycle':"Moottoripyörät",
+       'Cart is empty.':"Ostoskori on tyhjä",
+       'Delete':"Poistaa",
+       'Empty':"Tyhjä",
+       'Add products':"Lisää tuotteita",
+       'Total Value:':"Kokonaisarvo",
+       'Total of:':"Yhteensä",
+       'products in cart!':"kogustuotteet ostoskoriin",
+       "Edit":"Muokata",
+       'tk':"pala"
     }
   },
   ger: {
@@ -51,6 +92,24 @@ const resources = {
        "maintain-shops": "Geschäfte pflegen",
        "add-product": "Produkt hinzufügen",
        "maintain-products": "Produkte verwalten",
+       "Add to cart": "In den Warenkorb legen",
+       "Sort A-Z": "A-Z",
+       "Sort Z-A": "Z-A",
+       "Price Ascending":"Preis aufsteigend",
+       "Price Descending": "Preis absteigend",
+       'Category Tent': "Zelt",
+       'Category Camping': "Camping",
+       'Category Motors': "Autos",
+       'Category Motorcycle':"Motorrad",
+       'Cart is empty.':"Einkaufswagen ist leer",
+       'Delete':"Löschen",
+       'Empty':"Produkte entfernen",
+       'Add products':"Produkte hinzufügen",
+       'Total Value:':"Gesamtwert",
+       'Total of:':"Insgesamt",
+       'products in cart!':"produkte im Warenkorb",
+       'Edit':"Bearbeiten",
+       'tk':"Stück"
     }
   },
 };

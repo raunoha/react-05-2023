@@ -19,12 +19,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useTranslation } from 'react-i18next';
 
 function App() {
-
-//uudise projekti: lisage bootstrap, lisage tölge
-// tõlkime ja react toastyfy
-
-
-  const { t, i18n } = useTranslation();
+ const { t, i18n } = useTranslation();
 
 const languageToEn = () => {
 i18n.changeLanguage("en");
@@ -71,7 +66,7 @@ const languageToFin = () => {
         <Route path="cart" element={ <Cart /> } />
         <Route path="shop" element={ <Shop /> } />
         <Route path="contact" element={  <ContactUs /> } />
-        <Route path="product" element={ <SingelProduct /> } />
+        <Route path="product/:id" element={ <SingelProduct /> } />
         <Route path="admin" element={ <AdminHome /> } />
         <Route path="admin/add-product" element={ <AddProduct /> } />
         <Route path="/admin/edit-products/:id" element={ <EditProduct /> } />
