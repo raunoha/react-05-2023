@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+}
+.active {
+border:  1px solid green;
+background-color: rgb(232, 240, 232);
+}
+
+.inactive {
+    border:  1px solid red;
+    background-color: rgb(228, 212, 212);
+}
+.image-blurred {
+    height: 100px;
+    width: 100px;
+    filter:grayscale(100%)
+    /*opacity: 0,2 */
+}

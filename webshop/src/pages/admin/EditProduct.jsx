@@ -21,7 +21,19 @@ const navigate = useNavigate();
 const [idUnique, setIdUnique] = useState(true);
 
 const changeProduct = () => { //saab ka kustuda omaduse abil, nime abil jrknr saab kustudada
-  const updateProduct = {
+  if (idRef.current.value === "") {
+    return
+  }
+  if (nameRef.current.value === "") {
+    return
+  }
+  if (priceRef.current.value === "") {
+    return;
+  }
+  if (Number (priceRef.current.value) <=0) {
+    return;
+  }
+   const updateProduct = {
     "id":Number (idRef.current.value),
      "name":nameRef.current.value,
      "image":imageRef.current.value, 
@@ -35,6 +47,11 @@ navigate("/admin/maintain-products");
 } 
 
 const checkIdUniqueness = () => {
+if (idRef.current.value === id) {
+  setIdUnique(true);
+  return; 
+}
+
 /*const result = productsFromFile.filter(element =>element.id === Number (idRef.current.value));
 if (result.length === 0 ) {
   setIdUnique(true);

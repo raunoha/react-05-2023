@@ -1,0 +1,25 @@
+[
+    {
+        "kogus": 5,
+        "toode":{
+        "id": 13505234,
+        "image": "https://i.ebayimg.com/thumbs/images/g/oqwAAOSwsRxjexU7/s-l225.webp",
+        "name": "1980 Harley-Davidson Street",
+        "price": 2500,
+        "description": "1980 Harley-Davidson Street ",
+        "category": "motorcycle",
+        "active": true 
+    }
+    } ,
+    { "kogus": 2,
+       "toode":{
+        "id": 41599809,
+        "image": "https://i.ebayimg.com/thumbs/images/g/soIAAOSw1rxjdt~B/s-l225.webp",
+        "name": "1983 American Motors",
+        "price": 5750,
+        "description": "1983 American Motors AMC 4dr Wagon 30",
+        "category": "motors",
+        "active": true
+    }
+    }
+]

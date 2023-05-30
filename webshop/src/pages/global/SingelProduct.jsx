@@ -1,33 +1,73 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
+import {  useParams } from 'react-router-dom'
 import productsFromFile from "../../data/products.json";
+//import cartFromFile from "../../data/cart.json";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
 
-function SingelProduct() {
+//import { t } from 'i18next';
+
+
+
+function SingleProduct() {
+ const {t} = useTranslation();
   const { id } = useParams();
-  // kodus sattuge siia lehele .id 
-  // ISESEISVALT KODUS: Sattuge siia lehele, editproduct.jsx järgi
-  // Kuvage välja ka
-  const found = productsFromFile.find(product => product.id === Number (id)); // tuleb üks toode
-  // const tulem =tootedFailist.filter(toode =>toode.id ===id) filter leiab kogu hunniku 
-  //const index = productsFromFile.findIndex(product => product.id === Number (id));
+  const result = productsFromFile.find((product) => product.id === Number(id));
   
-/* */
+  //const [cart, setCart] = useState(cartFromFile);
+
+  const addToCart = (productClicked) => {
+    const cartLS =JSON.parse(localStorage.getItem("cart"))|| [];
+    const index = cartLS.findIndex(element => element.product.id === productClicked.id);
+    if (index >= 0) {
+      cartLS[index].quantity++;
+    } else {
+      cartLS.push({"product":productClicked, "quantity": 1});
+    }
+    localStorage.setItem ("cart", JSON.stringify(cartLS))
+    //setProducts(productsFromFile.slice());
+    toast.success('Item added to cart!', {
+      position: toast.position="bottom-right"
+    })
+  }
+  
+ /* const removeFromCart = (index) => {
+    cartFromFile.splice(index, 1)
+    setCart(cartFromFile.slice());
+    toast.success("Cart is empty!");
+
+  }
+
+  const decreaseQuantity = (index) =>{
+    cartFromFile[index].quantity--;
+    if (cartFromFile[index].quantity === 0) {
+      removeFromCart(index); //kutstutakse teine funkstioon välja
+    }
+    setCart(cartFromFile.slice()); 
+  }
+  const increaseQuantity = (index) =>{
+    cartFromFile[index].quantity++;
+    setCart(cartFromFile.slice());
+  }*/
 
   return (
     <div>
-      {found === undefined && <div>Product not found!</div>}
-      {found !== undefined &&
-        <div>
-          <div>{found.name}</div>
-          <div>{found.price}€</div>
-          <img src={found.image} alt="" />
-          <div>{found.category}</div>
-          <div>{found.price}</div>
-          <div>{found.description}</div>
-          <div>{found.active}</div>
-        </div>}
+    <div>ID: {id}</div>
+    <div>Name: {result.name}</div>
+    <div>Price: {result.price} €</div>
+    <div>Description: {result.description}</div>
+    <img  src={result.image} alt=""  /> 
+     <br /> <br />
+    <button onClick={() => addToCart(result)}>{t('Add to cart')}</button>
+    <ToastContainer />
     </div>
   )
 }
+  
 
-export default SingelProduct
+
+
+
+
+
+export default SingleProduct;

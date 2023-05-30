@@ -1,6 +1,5 @@
 import { Link, Route, Routes } from 'react-router-dom';
 import './App.css';
-import HomePage from './pages/global/HomePage';
 import Cart from './pages/global/Cart';
 import Shop from './pages/global/Shop';
 import {ContactUs }from './pages/global/ContactUs';
@@ -17,11 +16,13 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useTranslation } from 'react-i18next';
+import HomePage from './pages/global/HomePage';
+
 
 function App() {
  const { t, i18n } = useTranslation();
 
-const languageToEn = () => {
+/*const languageToEn = () => {  // funtsiooni taas kasutamine ja väljakutsummine 2 saada 1 funktsioon(nau kategoorias)
 i18n.changeLanguage("en");
 localStorage.setItem("language","en");
 }
@@ -37,7 +38,13 @@ const languageToFin = () => {
   const languageToGer = () => {
     i18n.changeLanguage("ger");
     localStorage.setItem("language","ger");
+    } */
+
+    const filterByLanguage = (categoryClicked) => {  //koik funkstioonid on kokku tõstetud
+      i18n.changeLanguage(categoryClicked) 
+      localStorage.setItem("language",categoryClicked )
     }
+
   return (
     <div className="App"> 
       <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
@@ -51,10 +58,10 @@ const languageToFin = () => {
             <Nav.Link as={Link} to="/shop">{t("shops")}</Nav.Link>
           </Nav> 
           <Nav>
-            <img className='lang' src="/english.png" onClick={languageToEn} alt="" />
-            <img className='lang' src="/estonia.png" onClick={languageToEe} alt="" />
-            <img className='lang' src="/finland.png" onClick={languageToFin} alt="" />
-            <img className='lang' src="/germany.png" onClick={languageToGer} alt=""/>
+            <img className='lang' src="/english.png" onClick={()=> filterByLanguage("en") } alt="" />
+            <img className='lang' src="/estonia.png" onClick={()=>filterByLanguage("ee")} alt="" />
+            <img className='lang' src="/finland.png" onClick={()=>filterByLanguage("fin")} alt="" />
+            <img className='lang' src="/germany.png" onClick={()=>filterByLanguage("ger")} alt=""/>
             <Nav.Link as={Link} to="/cart">{t("cart")}</Nav.Link>
           </Nav>
         </Navbar.Collapse>
