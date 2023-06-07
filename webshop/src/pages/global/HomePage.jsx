@@ -1,39 +1,46 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import productsFromFail from "../../data/products.json"; //../../ läheb 2 kausta üles
+//import productsFromFail from "../../data/products.json"; //../../ läheb 2 kausta üles
 //import cartFromFile from "../../data/cart.json";
 import "../../css/HomePage.css"
 import { useTranslation } from 'react-i18next';
-
+import config from "../../data/config.json";
 
 function HomePage() {
-const [products, setProduct] = useState (productsFromFail);
-
+const [products, setProducts] = useState ([]); // oli productfromfile ennem
 const { t } = useTranslation();
+const [categories, setCategories] = useState([]);
+const [loading, setLoading] = useState(true);
 
-//const addToCart = () => { }   //lisage ostukorvi:
+useEffect(() => {
+  fetch(config.productsDbUrl)
+  .then(res => res.json())
+  .then(json => {
+    setProducts(json || [])
+    setLoading(false);
+  }); //loogelised sulud, mitu rida
 
-// Lisage ostukorvi:
-    // * Tehke uus fail, nt cart.json
-    // * Lisage sinna sisse
+  fetch(config.categoriesDbUrl)
+  .then(res => res.json())
+  .then(json => setCategories(json || []));
+}, []);
 
-    // NING TEHKE VALMIS KA Cart.jsx fail nagu tehtud eesti keelse
 const AZ = () => {
   products.sort((a,b) => a.name.localeCompare(b.name));
- setProduct(products.slice())
+ setProducts(products.slice())
 }
 const ZA = () => {
   products.sort((a, b) => b.name.localeCompare(a.name));
-  setProduct(products.slice())
+  setProducts(products.slice())
 }
 const sortPriceAsc = () => {   //hinnad kasvavalt
   products.sort((a,b) => a.price - b.price);
-  setProduct(products.slice());
+  setProducts(products.slice());
 }
 const sortPriceDesc = () => {   //hinnad kahanevalt
   products.sort((a,b) => b.price - a.price);
-  setProduct(products.slice());
+  setProducts(products.slice());
 }
 /*const filterByCategoryTent = () => {
   const result = productsFromFail.filter((product) => product.category === ("tent"));  // =
@@ -52,9 +59,9 @@ const filterByCategoryMotorcycle = () => {
   setProduct(result)
 }*/
 const filterByCategory = (categoryClicked) => {  //koik funkstioonid on kokku tõstetud
-  const result = productsFromFail.filter((product) => 
+  const result = products.filter((product) =>   // oli productsfromfile!!!
   product.category.includes(categoryClicked));
-  setProduct(result)
+  setProducts(result)
 }
 const add =(productClicked) => {   // see on nyyd uus json faili ühendus.
   const cartLS = JSON.parse(localStorage.getItem("cart")) || [];
@@ -68,8 +75,12 @@ cartLS[index].quantity++;
     cartLS.push({"product": productClicked, "quantity":1});
   }
   localStorage.setItem("cart", JSON.stringify(cartLS)); // paneb ise jutumärgid
-    toast.success("Product added!");
+    toast.success(t("Product added!")); // niisaab tölkida tastifyd 
   };
+
+  if (loading === true) {       //products.length === 0 oli ennem
+  return <div>Loading...</div>
+}
 
   return (
     <div>
@@ -77,10 +88,16 @@ cartLS[index].quantity++;
       <button onClick= {ZA}>{t('Sort Z-A')}</button>
       <button onClick= {sortPriceAsc}>{t('Price Ascending')}</button>
       <button onClick= {sortPriceDesc}>{t('Price Descending')}</button>
-      <button onClick= {() => filterByCategory("tent")}>{t('Category Tent')}</button>
+      {/*<button onClick= {() => filterByCategory("tent")}>{t('Category Tent')}</button>
       <button onClick= {() => filterByCategory("camping")}>{t('Category Camping')}</button>
       <button onClick= {() => filterByCategory("motors")}>{t('Category Motors')}</button>
-      <button onClick= {() => filterByCategory("motorcycle")}>{t('Category Motorcycle')}</button>
+  <button onClick= {() => filterByCategory("motorcycle")}>{t('Category Motorcycle')}</button> */}
+  {categories.map(category => 
+  <button key={category.name} onClick={() => filterByCategory(category.name)}>
+    {category.name} 
+  </button>
+    )}
+    <div>{products.length} </div>
       <div className='products'>
       {products.filter(e=> e.active === true).map((product, id) =>
        <div key={product.id} className='product'>

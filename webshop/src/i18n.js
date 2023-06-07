@@ -46,7 +46,14 @@ const resources = {
        'Total of:':"Toodete",
        'products in cart!':"kogus",
        'Edit':"Muuda",
-       "piece":"tk"
+       "piece":"tk",
+       "Name":"Nimi",
+       "Message":"Sõnum",
+       "Phone":"Telefon",
+       "Send":"Saada sõnum",
+       "Add Product":"Lisa toode",
+       "Product added!": "Toode Lisatud Ostukorvi!",
+       'Item added to cart!':"Lisatud Ostukorvi",
 
        
 
@@ -79,7 +86,12 @@ const resources = {
        'Total of:':"Yhteensä",
        'products in cart!':"kogustuotteet ostoskoriin",
        "Edit":"Muokata",
-       'tk':"pala"
+       'tk':"pala",
+       "Name":"Nimi",
+       "Message":"Viesti",
+       "Phone":"Puhelin",
+       "Send":"Lähettää",
+       "Add Product":"Lisää tuote",
     }
   },
   ger: {
@@ -109,7 +121,12 @@ const resources = {
        'Total of:':"Insgesamt",
        'products in cart!':"produkte im Warenkorb",
        'Edit':"Bearbeiten",
-       'tk':"Stück"
+       'tk':"Stück",
+       "Name":"Name",
+       "Message":"Nachricht",
+       "Phone":"Telefon",
+       "Send":"Schicken",
+       "Add Product":"Produkt hinzufügen"
     }
   },
 };

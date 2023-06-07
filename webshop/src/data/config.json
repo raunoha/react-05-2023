@@ -1,0 +1,5 @@
+{
+    "categoriesDbUrl":"https://webshop-052023-default-rtdb.europe-west1.firebasedatabase.app/categories.json",
+    "shopsDbUrl": "https://webshop-052023-default-rtdb.europe-west1.firebasedatabase.app/shops.json",
+    "productsDbUrl":"https://webshop-052023-default-rtdb.europe-west1.firebasedatabase.app/products.json"
+}

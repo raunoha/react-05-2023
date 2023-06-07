@@ -13,6 +13,7 @@ function SingleProduct() {
  const {t} = useTranslation();
   const { id } = useParams();
   const result = productsFromFile.find((product) => product.id === Number(id));
+  const found = productsFromFile.find(product => product.id === Number(id));
   
   //const [cart, setCart] = useState(cartFromFile);
 
@@ -26,7 +27,7 @@ function SingleProduct() {
     }
     localStorage.setItem ("cart", JSON.stringify(cartLS))
     //setProducts(productsFromFile.slice());
-    toast.success('Item added to cart!', {
+    toast.success(t('Item added to cart!'), {
       position: toast.position="bottom-right"
     })
   }
@@ -50,7 +51,13 @@ function SingleProduct() {
     setCart(cartFromFile.slice());
   }*/
 
+
+
+// kodus kui result on undefined !! ok aga midagi äedat lisada
   return (
+    <div>
+       {found === undefined && <div>Can t find product!</div>}
+ {found !== undefined &&  
     <div>
     <div>ID: {id}</div>
     <div>Name: {result.name}</div>
@@ -60,6 +67,7 @@ function SingleProduct() {
      <br /> <br />
     <button onClick={() => addToCart(result)}>{t('Add to cart')}</button>
     <ToastContainer />
+    </div>}
     </div>
   )
 }

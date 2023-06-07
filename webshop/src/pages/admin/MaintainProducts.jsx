@@ -1,35 +1,53 @@
-import React, { useRef, useState } from 'react'
-import productsFromFail from "../../data/products.json"; //../../ läheb 2 kausta üles
+import React, { useEffect, useRef, useState } from 'react'
+//import productsFromFail from "../../data/products.json"; //../../ läheb 2 kausta üles
 import Button from 'react-bootstrap/esm/Button';
 import { Link } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import "../../css/MaintainProducts.css";
+import config from "../../data/config.json";
 
 function MaintainProducts() {
-const [products, setProduct] = useState (productsFromFail);
+const [products, setProducts] = useState ([]); //kõikuv suurus kord 3  kord 60 näidatakse välja
+const [dbProducts, setDbProducts] = useState([]); // siin on alati sama palju kui andmebaasis
 const searchedRef = useRef();
+const [loading, setLoading] = useState(true);
 
-const deleteProduct = (index) => { // index lisamata oli products
-    productsFromFail.splice(index,1)        // index lisamata oli products, productFromFile panna
-    setProduct(productsFromFail.slice())
+useEffect(() => {
+  fetch(config.productsDbUrl)
+  .then(res => res.json())
+  .then(json => {
+    setProducts(json || []);  // 244
+    setDbProducts(json || [])  // 244
+    setLoading(false);
+  });
+}, []);
+
+const deleteProduct = (product) => {   // index lisamata oli products
+  const index = dbProducts.findIndex(element => element.id === product.id);
+  dbProducts.splice(index,1)        // index lisamata oli products, productFromFile panna
+    setDbProducts(dbProducts.slice()); //244-->243 andmebaasitoodete uuendus mida lehel kasutan
+    //setProducts(dbProducts.slice()); //visuaali uuendus mida kasutaja näeb 10-->243
+    searchFromProducts();
+    fetch(config.productsDbUrl, {"method": "PUT","body":JSON.stringify(dbProducts)}); // (oli ennem products)
   }
   const { t } = useTranslation();
-  //koju kustuta toode 
-  //testi kustuta ja mine avalehe
-  // refresh ilmub tagasi
-  /*const kustuta =(jrknr)=> {
-    poed.splice(jrknr,1)
-    uuendaPoed(poed.slice())
-  } {poed.map((yksPood,jrknr) => <div>{yksPood} <button onClick={() => kustuta(jrknr)}>x</button></div>)}
-  */ 
-
+ 
+  
 
 const searchFromProducts = () => {                        // otsingu, hakkab otsima
-const result = productsFromFail.filter(element => element.name.includes(searchedRef.current.value))
-setProduct(result);  // kodus teha otsingut;case sensitivity
-}
+  const result = dbProducts.filter(element =>
+   element.name.toLowerCase().replace("õ","o")
+   .includes(searchedRef.current.value.toLowerCase().replace("õ","o")))
+  setProducts(result);  // kodus teha otsingut;case sensitivity
+  } 
 
+  if (products.length === 0) {
+    return <div>Loading...</div>
+  }
 
+  if (loading === true) {       
+    return <div>Loading...</div>
+  }
 
   return (
     <div>
@@ -57,7 +75,7 @@ setProduct(result);  // kodus teha otsingut;case sensitivity
           <td>{product.description}</td>
           <td>{product.category}</td>
           <td>
-          <Button onClick={() => deleteProduct(index)} variant="danger">{t('Delete')}</Button>
+          <Button onClick={() => deleteProduct(product)} variant="danger">{t('Delete')}</Button>
           <Button as={Link} to={"/admin/edit-products/" + product.id} variant="warning">{t('Edit')}</Button>
           </td>
        </tr>

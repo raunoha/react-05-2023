@@ -21,13 +21,17 @@ function Cart() {  //use<--- reacti hookid,erikood teeb lihtsaks.
   const { t } = useTranslation();
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")) || []);
 const [parcelMachines, setParcelMachine] = useState([]); //omnivaFromFile
+const [dbParcelMachines, setDbParcelMachine] = useState([]);
 const searchedRef = useRef();
 
 //uef mingid päringud API päring
 useEffect(() => {
   fetch("https://www.omniva.ee/locations.json")  // 0,5 sek aega
   .then(res => res.json())  // response lihtsalt nimi 
-  .then(json => setParcelMachine(json))  //console.log
+  .then(json => {
+    setParcelMachine(json || []);  //console.log
+    setDbParcelMachine(json || []);
+  })  
 }, []);
 
   const removeFromCart = (index) => {
@@ -65,7 +69,7 @@ const increaseQuantity = (index) =>{
 
 
 const searchFromPMs =  () => {
-const result = parcelMachines.filter(pm => 
+const result = dbParcelMachines.filter(pm => 
   pm.NAME.toLowerCase().replace("õ","o")
   .includes(searchedRef.current.value.toLowerCase().replace("õ","o")));
 setParcelMachine(result); //saab otsida väikse kui suure tähega.õ asedab o-ga, otib sõna järgi ülesse.
