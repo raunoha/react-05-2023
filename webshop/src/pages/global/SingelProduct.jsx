@@ -1,22 +1,37 @@
 import {  useParams } from 'react-router-dom'
-import productsFromFile from "../../data/products.json";
+//import productsFromFile from "../../data/products.json";
 //import cartFromFile from "../../data/cart.json";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useTranslation } from 'react-i18next';
+import config from "../../data/config.json";
+import { useEffect, useState } from 'react';
+import { Spinner } from 'react-bootstrap';
+
 
 //import { t } from 'i18next';
 
 
 
 function SingleProduct() {
+  const [products, setProducts] = useState([]);
  const {t} = useTranslation();
   const { id } = useParams();
-  const result = productsFromFile.find((product) => product.id === Number(id));
-  const found = productsFromFile.find(product => product.id === Number(id));
+  const result = products.find((product) => product.id === Number(id));
+  const found = products.find(product => product.id === Number(id));
+  const [loading, setLoading] = useState(true);
   
   //const [cart, setCart] = useState(cartFromFile);
 
+  useEffect(() => {
+    fetch(config.productsDbUrl)
+    .then(res => res.json())
+    .then(json => {
+      setProducts(json || []);  // 244
+      setLoading(false);
+    });
+  }, []);
+// SELLE KOHTA KYSIMUS!!!!!!
   const addToCart = (productClicked) => {
     const cartLS =JSON.parse(localStorage.getItem("cart"))|| [];
     const index = cartLS.findIndex(element => element.product.id === productClicked.id);
@@ -54,6 +69,11 @@ function SingleProduct() {
 
 
 // kodus kui result on undefined !! ok aga midagi äedat lisada
+if (loading === true) {       //products.length === 0 oli ennem
+  return <div><Spinner />
+  <span>Loading...</span></div>
+}
+
   return (
     <div>
        {found === undefined && <div>Can t find product!</div>}

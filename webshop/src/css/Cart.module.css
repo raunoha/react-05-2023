@@ -1,9 +1,14 @@
-.cart-product {
+.product {
 display: flex;
 justify-content: space-between;
 border-bottom: 1px solid lightgray;
 margin: 0 10%;
 padding: 10px 0;
+}
+
+.image {
+    width: 100px;
+    height: 100px;
 }
 
 .name {

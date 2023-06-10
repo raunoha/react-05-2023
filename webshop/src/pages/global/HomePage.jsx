@@ -3,12 +3,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 //import productsFromFail from "../../data/products.json"; //../../ läheb 2 kausta üles
 //import cartFromFile from "../../data/cart.json";
-import "../../css/HomePage.css"
+import styles from "../../css/HomePage.module.css"
 import { useTranslation } from 'react-i18next';
 import config from "../../data/config.json";
+import FilterButtons from '../../components/home/FilterButtons';
+
 
 function HomePage() {
 const [products, setProducts] = useState ([]); // oli productfromfile ennem
+const [dbProducts, setDbProducts] = useState ([]);
 const { t } = useTranslation();
 const [categories, setCategories] = useState([]);
 const [loading, setLoading] = useState(true);
@@ -18,6 +21,7 @@ useEffect(() => {
   .then(res => res.json())
   .then(json => {
     setProducts(json || [])
+    setDbProducts(json || [])
     setLoading(false);
   }); //loogelised sulud, mitu rida
 
@@ -58,11 +62,8 @@ const filterByCategoryMotorcycle = () => {
   const result = productsFromFail.filter((product) => product.category.includes("motorcycle"));
   setProduct(result)
 }*/
-const filterByCategory = (categoryClicked) => {  //koik funkstioonid on kokku tõstetud
-  const result = products.filter((product) =>   // oli productsfromfile!!!
-  product.category.includes(categoryClicked));
-  setProducts(result)
-}
+
+
 const add =(productClicked) => {   // see on nyyd uus json faili ühendus.
   const cartLS = JSON.parse(localStorage.getItem("cart")) || [];
   const index = cartLS.findIndex(element =>element.product.id === productClicked.id);
@@ -84,6 +85,7 @@ cartLS[index].quantity++;
 
   return (
     <div>
+      
       <button onClick= {AZ}>{t('Sort A-Z')}</button>
       <button onClick= {ZA}>{t('Sort Z-A')}</button>
       <button onClick= {sortPriceAsc}>{t('Price Ascending')}</button>
@@ -92,18 +94,18 @@ cartLS[index].quantity++;
       <button onClick= {() => filterByCategory("camping")}>{t('Category Camping')}</button>
       <button onClick= {() => filterByCategory("motors")}>{t('Category Motors')}</button>
   <button onClick= {() => filterByCategory("motorcycle")}>{t('Category Motorcycle')}</button> */}
-  {categories.map(category => 
-  <button key={category.name} onClick={() => filterByCategory(category.name)}>
-    {category.name} 
-  </button>
-    )}
+  <FilterButtons 
+      dbProducts={dbProducts}
+      setProducts={setProducts}
+      categories={categories}
+      />
     <div>{products.length} </div>
-      <div className='products'>
+      <div className={styles.products}>
       {products.filter(e=> e.active === true).map((product, id) =>
-       <div key={product.id} className='product'>
+       <div key={product.id} className={styles.product}>
         <Link to={"/product/" +  product.id}>
           <img src={product.image} alt="" />
-          <div className='name'>{product.name}</div>
+          <div className={styles.name}>{product.name}</div>
           <div>{product.price}  €</div>
           </Link>
           <button onClick={() => add(product)}>{t('Add to cart')}</button>

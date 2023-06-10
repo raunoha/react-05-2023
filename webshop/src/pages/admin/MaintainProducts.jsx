@@ -3,8 +3,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import Button from 'react-bootstrap/esm/Button';
 import { Link } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
-import "../../css/MaintainProducts.css";
+//import "../../css/MaintainProducts.module.css";
 import config from "../../data/config.json";
+import styles from "../../css/MaintainProducts.module.css";
 
 function MaintainProducts() {
 const [products, setProducts] = useState ([]); //kõikuv suurus kord 3  kord 60 näidatakse välja
@@ -67,8 +68,8 @@ const searchFromProducts = () => {                        // otsingu, hakkab ots
         </thead>
        <tbody>
        {products.map((product, index)=>
-        <tr key={product.id} className={product.active === true ? "active" : "inactive"}>
-          <td><img className={product.active === true ? "image": "image-blurred"} src={product.image} alt="" /></td>
+        <tr key={product.id} className={product.active === true ? styles.active : styles.inactive }>
+          <td><img className={product.active === true ? styles.image : styles["image-blurred"]} src={product.image} alt="" /></td> 
           <td>{product.id}</td>
           <td>{product.name}</td>
           <td>{product.price}</td>
@@ -87,3 +88,5 @@ const searchFromProducts = () => {                        // otsingu, hakkab ots
 }
 
 export default MaintainProducts;
+
+/*styles["image-blurred"] styles.imageblurred */
